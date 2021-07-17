@@ -7,7 +7,7 @@ continuar = True
 while continuar:
 
     #ingresar caracteres a convertir
-    dataOut = raw_input("[Cliente] Ingrese una cadena de caracteres" + "\n")
+    dataOut = raw_input("[Cliente] Ingrese el mensaje a transmitir" + "\n")
 
     if dataOut != "fin":
 
@@ -22,7 +22,7 @@ while continuar:
 
         #convertirlo de bytes a string
         dataIn = str(dataIn.decode("utf-8"))
-        print("\n" + "[Cliente] Se recibe: " + dataIn + "\n")
+        print("\n" + "[Cliente] Mensaje recibido: " + dataIn + "\n")
 
     #STOP termina la concexion
     else:

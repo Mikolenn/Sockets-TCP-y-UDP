@@ -16,7 +16,7 @@ while continuar:
     dataIn = dataIn.decode("utf-8")
 
     if dataIn != str("fin"):
-        print("\n" + "[Servidor] Se recibe: " + dataIn)
+        print("\n" + "[Servidor] Mensaje recibido: " + dataIn)
 
         #de minusculas a mayusculas
         dataOut = dataIn.upper()
@@ -30,5 +30,5 @@ while continuar:
     #STOP termina la concexion
     else:
         s.close()
-        print("\n" + "[Servidor] Fin de la conexion " + str(addr))
+        print("\n" + "[Servidor] Conexion finalizada " + str(addr))
         continuar = False
