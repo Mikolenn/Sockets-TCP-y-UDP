@@ -1,7 +1,5 @@
 # SocketsTCPyUDP
 
-# Sockets-TCP-y-UDP
-
 Segunda asignación de investigación, Redes de Computadoras.
 
 Integrantes:
