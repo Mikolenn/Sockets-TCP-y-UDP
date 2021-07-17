@@ -1,34 +1,39 @@
 import socket
 
 #socket de IPv4 y UDP
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-#asociar socket
-s.bind(("192.168.0.5", 1024))
+# Asociar al socket a una direccion y un puerto
+sUDP.bind(("192.168.0.5", 1024))
 
 continuar = True
 while continuar:
 
-    #recibir el mensaje
-    dataIn, addr = s.recvfrom(1024)
+    # Se recibe el mensaje del cliente
+    recievedData, clienteAddr = sUDP.recvfrom(1024)
 
-    #convertirlo de bytes a string
-    dataIn = dataIn.decode("utf-8")
+    # Se converte el mensaje de bytes a String
+    recievedData = recievedData.decode("utf-8")
 
-    if dataIn != str("fin"):
-        print("\n" + "[Servidor] Mensaje recibido: " + dataIn)
+    # Finaliza la conexion
+    if recievedData.lower() == "fin":
 
-        #de minusculas a mayusculas
-        dataOut = dataIn.upper()
-
-        #convertir de string a bytes para enviarlo
-        dataOut = bytes(dataOut.encode("utf-8"))
-
-        #enviarlo
-        s.sendto(dataOut, addr)
-
-    #STOP termina la concexion
-    else:
-        s.close()
-        print("\n" + "[Servidor] Conexion finalizada " + str(addr))
+        sUDP.close()
+        print("\n" + "[Servidor] Conexion con " + str(clienteAddr) + " finalizada")
         continuar = False
+
+    # Se responde al cliente
+    else:
+
+        print("\n" + "[Servidor] Mensaje recibido: " + recievedData)
+
+        # Se convierte el mensaje de minusculas a mayusculas
+        dataToSend = recievedData.upper()
+
+        #Se converte la respuesta de string a bytes, para su envio
+        dataToSend = bytes(dataToSend.encode("utf-8"))
+
+        # Se envia la respuesta
+        sUDP.sendto(dataToSend, clienteAddr)
+
+

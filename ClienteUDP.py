@@ -1,32 +1,39 @@
 import socket
 
-#socket de IPv4 y UDP
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# Socket de IPv4 y tipo UDP
+sUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# Server address
+serverAddr = ("192.168.0.5", 1024)
 
 continuar = True
+
 while continuar:
 
-    #ingresar caracteres a convertir
-    dataOut = raw_input("[Cliente] Ingrese el mensaje a transmitir" + "\n")
+    # Mensaje ingresado por el cliente
+    dataToSend = raw_input("[Cliente] Ingrese el mensaje a transmitir: ")
 
-    if dataOut != "fin":
+    # Se termina la conexion
+    if dataToSend.lower() == "fin":
 
-        #convertir de string a bytes para enviarlo
-        dataOut = bytes(dataOut.encode("utf-8"))
-
-        #enviarlo
-        s.sendto(dataOut, ("192.168.0.5", 1024))
-
-        #recibir el mensaje
-        dataIn, addr = s.recvfrom(1024)
-
-        #convertirlo de bytes a string
-        dataIn = str(dataIn.decode("utf-8"))
-        print("\n" + "[Cliente] Mensaje recibido: " + dataIn + "\n")
-
-    #STOP termina la concexion
-    else:
-        dataOut = bytes(dataOut.encode("utf-8"))
-        s.sendto(dataOut, ("192.168.0.5", 1024))
-        s.close() 
+        dataToSend = bytes(dataToSend.encode("utf-8"))
+        sUDP.sendto(dataToSend, serverAddr)
+        sUDP.close() 
         continuar = False
+
+    # Se comunica con el servidor
+    else:
+        # Conversion del string a bytes para su envio
+        dataToSend = bytes(dataToSend.encode("utf-8"))
+
+        # Envio del mensaje
+        sUDP.sendto(dataToSend, serverAddr)
+
+        # Respuesta del servidor en bytes
+        recievedData, auxAddr = sUDP.recvfrom(1024)
+
+        # Conversion de la respuesta en bytes a String
+        recievedData = str(recievedData.decode("utf-8"))
+
+        # Respuesta del servidor en String
+        print("\n" + "[Cliente] Mensaje recibido: " + recievedData + "\n")
