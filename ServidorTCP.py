@@ -1,19 +1,23 @@
 import socket
 
 #socket de IPv4 y UDP
-sUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Direccion del servidor
 serverAddr = ("192.168.0.5", 1024)
 
 # Asociar al socket a una direccion y un puerto
-sUDP.bind(serverAddr)
+sTCP.bind(serverAddr)
+
+sTCP.listen(5)
+
+connection, clienteAddr = sTCP.accept()
 
 continuar = True
 while continuar:
 
     # Se recibe el mensaje del cliente
-    recievedData, clienteAddr = sUDP.recvfrom(1024)
+    recievedData = connection.recv(1024)
 
     # Se converte el mensaje de bytes a String
     recievedData = recievedData.decode("utf-8")
@@ -21,7 +25,8 @@ while continuar:
     # Finaliza la conexion
     if recievedData.lower() == "fin":
 
-        sUDP.close()
+        connection.close()
+        sTCP.close()
         print("\n" + "[Servidor] Conexion con " + str(clienteAddr) + " finalizada")
         continuar = False
 
@@ -37,6 +42,6 @@ while continuar:
         dataToSend = bytes(dataToSend.encode("utf-8"))
 
         # Se envia la respuesta
-        sUDP.sendto(dataToSend, clienteAddr)
+        connection.send(dataToSend)
 
 
