@@ -37,17 +37,20 @@ while continuar:
         sTCP.close()
 
         # Mensaje de despedida
-        print("\n[Servidor] Conexion con " + str(clienteAddr) + " finalizada\n")
+        print("\n[Servidor] Conexion con " + str(clienteAddr) + " finalizada")
 
         continuar = False
 
     # Respuesta al cliente
     else:
         # Impresion del mensaje recibido
-        print("\n[Servidor] Mensaje del cliente: " + recievedData)
+        print("\n[Servidor] Mensaje recibido del cliente: " + recievedData)
 
         # Conversion del mensaje de minusculas a mayusculas
         dataToSend = recievedData.upper()
+
+        # Impresion del mensaje de respuesta
+        print("\n[Servidor] Mensaje de respuesta para cliente: " + dataToSend)
 
         # Conversion de la respuesta a bytes, para su envio
         dataToSend = bytes(dataToSend.encode("utf-8"))
